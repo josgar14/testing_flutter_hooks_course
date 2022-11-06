@@ -17,9 +17,28 @@ class HomePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = useTextEditingController();
+    final text = useState('');
+    useEffect(
+      () {
+        controller.addListener(() {
+          text.value = controller.text;
+        });
+        return null;
+      },
+      [controller],
+    );
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home Page'),
+      ),
+      body: Column(
+        children: [
+          TextField(
+            controller: controller,
+          ),
+          Text('You typed ${text.value}'),
+        ],
       ),
     );
   }
